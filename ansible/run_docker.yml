@@ -1,0 +1,9 @@
+---
+- name: Setup debian with docker and Portainer.
+  hosts: all
+  become: true
+  vars_prompt:
+  - name: ansible_become_pass
+    prompt: "Enter become pass"
+  roles:
+    - role: docker

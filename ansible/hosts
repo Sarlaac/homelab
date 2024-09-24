@@ -1,0 +1,18 @@
+---
+desktops:
+  hosts:
+    localhost:
+      ansible_connection: local
+
+raspberries:
+  hosts:
+    10.88.88.[14:19]
+
+proxmox:
+  hosts:
+    10.88.88.[20:59]
+
+servers:
+  children:
+    raspberries:
+    proxmox:

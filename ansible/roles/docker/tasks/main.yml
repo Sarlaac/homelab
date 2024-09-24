@@ -1,0 +1,53 @@
+- name: Install required system packages
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+    update_cache: true
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: "https://download.docker.com/linux/debian/gpg"
+    state: present
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+
+- name: Install Docker CE
+  ansible.builtin.apt:
+    name: docker-ce
+    state: present
+    update_cache: true
+
+- name: Ensure Docker service is enabled and running
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Install Docker Module for Python
+  ansible.builtin.pip:
+    name: docker
+
+- name: Create portainer volumes
+  community.docker.docker_volume:
+    name: portainer_data
+
+- name: Create portainer
+  community.docker.docker_container:
+    name: portainer
+    image: portainer/portainer-ce:latest
+    state: started
+    pull: true
+    restart_policy: always
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer_data:/data"

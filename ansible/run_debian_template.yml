@@ -1,0 +1,8 @@
+---
+- name: Setup debian with standard configuration.
+  hosts: localhost
+  vars_prompt:
+  - name: ansible_become_pass
+    prompt: "Enter become pass"
+  roles:
+    - role: debian-template

@@ -1,0 +1,72 @@
+---
+# tasks file for debian-template
+- name: Update APT.
+  ansible.builtin.apt:
+    upgrade: 'yes'
+    update_cache: 'yes'
+  become: true
+
+- name: Remove unused packages.
+  ansible.builtin.apt:
+    autoremove: 'yes'
+  become: true
+
+- name: Install common tools.
+  ansible.builtin.apt:
+    name:
+      - git
+      - ufw
+      - anacron
+      - nala
+      - btop
+      - curl
+      - wget
+      - rsync
+    state: present
+  become: true
+
+- name: Set Timezone.
+  community.general.timezone:
+    name: "{{ timezone }}"
+  become: true
+
+# Git Config
+- name: Config git user.
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ git_user }}"
+
+- name: Config git email.
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "{{ git_email }}"
+
+# setup .bashrc
+- name: Copy .mybashrc to remote.
+  ansible.builtin.copy:
+    src: .mybashrc
+    dest: ~/.mybashrc
+    mode: '0644'
+    force: true
+
+- name: Reference mybashrc in .bashrc
+  ansible.builtin.blockinfile:
+    path: /home/$USER/.bashrc
+    block: |
+      # Load my custom bash settings
+      source ~/.mybashrc
+
+# Firewall Setup
+- name: UFW ssh allow.
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+  when: ansible_connection == "ssh"
+  become: true
+
+- name: UFW enable.
+  community.general.ufw:
+    state: enabled
+  become: true
