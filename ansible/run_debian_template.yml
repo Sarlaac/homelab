@@ -6,6 +6,6 @@
     prompt: "Enter become pass"
   roles:
     - role: debian-template
-    - role: server_setup
+    - role: server-setup
       when: ansible_connection == "ssh"
       become: true

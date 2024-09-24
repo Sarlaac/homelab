@@ -1,0 +1,45 @@
+---
+
+# Setup unattended-upgrades
+- name: Install unattended upgrades package.
+  ansible.builtin.package:
+    name: unattended-upgrades
+    state: present
+  notify: Start auto-upgrades
+
+- name: Extra setup for Raspberries to update.
+  ansible.builtin.blockinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    block: |
+      "origin=Raspbian,codename=${distro_codename},label=Raspbian";
+      "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";
+    insertafter: Unattended-Upgrade::Origins-Pattern {
+    marker: "// {mark} ANSIBLE MANAGED BLOCK"
+  when: inventory_hostname in groups['raspberries']
+  notify: Start auto-upgrades
+
+# Make SSH more secure
+- name: Update SSH configuration to be more secure.
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: 'sshd -T -f %s'
+    mode: 0644
+  with_items:
+    - regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    - regexp: "^PermitRootLogin"
+      line: "PermitRootLogin no"
+    - regexp: "^PermitEmptyPasswords"
+      line: "PermitEmptyPasswords no"
+    - regexp: "^ChallengeResponseAuthentication"
+      line: "ChallengeResponseAuthentication no"
+    - regexp: "^GSSAPIAuthentication"
+      line: "GSSAPIAuthentication no"
+    - regexp: "^X11Forwarding"
+      line: "X11Forwarding no"
+    - regexp: '^AllowUsers'
+      line: "AllowUsers sarlaac"
+  notify: Restart SSH
