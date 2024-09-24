@@ -41,5 +41,5 @@
     - regexp: "^X11Forwarding"
       line: "X11Forwarding no"
     - regexp: '^AllowUsers'
-      line: "AllowUsers sarlaac"
+      line: "AllowUsers {{ ssh_username }}"
   notify: Restart SSH
