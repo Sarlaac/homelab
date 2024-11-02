@@ -39,9 +39,10 @@
     name: docker
     virtualenv: /docker/venv
 
-- name: Create portainer volumes
-  community.docker.docker_volume:
-    name: portainer_data
+- name: Create Proxy Network
+  community.docker.docker_network:
+    name: reverse_proxy
+    state: present
 
 - name: Create portainer
   community.docker.docker_container:
@@ -55,4 +56,7 @@
       - "9443:9443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "portainer_data:/data"
+      - "/home/docker/portainer_data:/data"
+    networks:
+      - name: bridge
+      - name: reverse_proxy
