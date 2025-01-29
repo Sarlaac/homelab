@@ -2,10 +2,10 @@
 - name: Setup debian with standard configuration.
   hosts: all
   vars_prompt:
-  - name: ansible_become_pass
-    prompt: "Enter become pass"
+    - name: ansible_become_pass
+      prompt: "Enter become pass"
   roles:
-    - role: debian-template
-    - role: server-setup
+    - role: debian_template
+    - role: server_setup
       when: ansible_connection == "ssh"
       become: true

@@ -26,7 +26,7 @@
     line: "{{ item.line }}"
     state: present
     validate: 'sshd -T -f %s'
-    mode: 0644
+    mode: '0644'
   with_items:
     - regexp: "^PasswordAuthentication"
       line: "PasswordAuthentication no"
@@ -41,5 +41,5 @@
     - regexp: "^X11Forwarding"
       line: "X11Forwarding no"
     - regexp: '^AllowUsers'
-      line: "AllowUsers {{ ssh_username }}"
+      line: "AllowUsers {{ server_setup_ssh_username }}"
   notify: Restart SSH

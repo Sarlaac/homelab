@@ -3,8 +3,8 @@
   hosts: all
   become: true
   vars_prompt:
-  - name: ansible_become_pass
-    prompt: "Enter become pass"
+    - name: ansible_become_pass
+      prompt: "Enter become pass"
   roles:
     - role: docker
     - role: minecraft

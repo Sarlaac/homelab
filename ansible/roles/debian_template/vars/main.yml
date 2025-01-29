@@ -1,0 +1,5 @@
+---
+# vars file for debian-template
+debian_template_timezone: "America/Regina"
+debian_template_git_user: "Sarlaac"
+debian_template_git_email: "redacted"

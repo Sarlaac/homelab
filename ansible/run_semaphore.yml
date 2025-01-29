@@ -1,5 +1,5 @@
 ---
-- name: Setup debian with docker and Portainer.
+- name: Install Semaphore on docker
   hosts: all
   become: true
   vars_prompt:
@@ -7,3 +7,4 @@
       prompt: "Enter become pass"
   roles:
     - role: docker
+    - role: semaphore

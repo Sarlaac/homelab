@@ -27,7 +27,7 @@
 
 - name: Set Timezone.
   community.general.timezone:
-    name: "{{ timezone }}"
+    name: "{{ debian_template_timezone }}"
   become: true
 
 # Git Config
@@ -35,13 +35,13 @@
   community.general.git_config:
     name: user.name
     scope: global
-    value: "{{ git_user }}"
+    value: "{{ debian_template_git_user }}"
 
 - name: Config git email.
   community.general.git_config:
     name: user.email
     scope: global
-    value: "{{ git_email }}"
+    value: "{{ debian_template_git_email }}"
 
 # setup .bashrc
 - name: Copy .mybashrc to remote.
