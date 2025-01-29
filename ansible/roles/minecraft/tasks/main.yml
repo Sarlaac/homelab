@@ -1,0 +1,14 @@
+- name: Create minecraft
+  community.docker.docker_container:
+    name: minecraft
+    image: itzg/minecraft-server
+    state: started
+    restart_policy: always
+    ports:
+      - "25565:25565"
+    volumes:
+      - "/home/docker/docker_mc_server:/data"
+    env:
+      TYPE: PAPER
+      EULA: "TRUE"
+      MEMORY: "8G"
