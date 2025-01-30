@@ -1,6 +1,6 @@
 ---
 - name: Setup debian with standard configuration.
-  hosts: "{{target_hosts}}"
+  hosts: all
 
   roles:
     - role: debian_template
