@@ -9,3 +9,9 @@ servers:
     test_gitlab:
       ansible_host: testgitlab.nutrien.com
       ansible_user: russph
+
+tests:
+  hosts:
+    debianVM:
+      ansible_host: 192.168.56.102
+      ansible_user: sarlaac
