@@ -1,0 +1,15 @@
+---
+- name: Update Everything
+  hosts: all
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Update every machine
+      ansible.builtin.apt:
+        upgrade: true
+        update_cache: true
+
+    - name: Remove unused packages
+      ansible.builtin.apt:
+        autoremove: true
