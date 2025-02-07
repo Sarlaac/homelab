@@ -18,6 +18,12 @@
   when: inventory_hostname in groups['raspberries']
   notify: Start auto-upgrades
 
+- name: SSH Public Keys from Github.
+  ansible.posix.authorized_key:
+    user: "{{ server_setup_ssh_username }}"
+    state: present
+    key: "https://github.com/{{ server_setup_github_username }}.keys"
+
 # Make SSH more secure
 - name: Update SSH configuration to be more secure.
   ansible.builtin.lineinfile:

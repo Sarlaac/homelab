@@ -1,0 +1,12 @@
+---
+- name: Testing stuff
+  hosts: all
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: SSH Public Keys from Github.
+      ansible.posix.authorized_key:
+        user: "sarlaac"
+        state: present
+        key: "https://github.com/sarlaac.keys"
