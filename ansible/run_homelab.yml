@@ -1,0 +1,10 @@
+---
+- name: Setup homelab in docker.
+  hosts: all
+  become: true
+
+  roles:
+    - role: nginx_proxy
+    - role: homepage
+    - role: uptime_kuma
+    - role: tailscale

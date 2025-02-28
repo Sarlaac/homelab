@@ -1,0 +1,15 @@
+- name: Install Nginx Proxy in Docker
+  community.docker.docker_container:
+    name: nginx_proxy
+    image: jc21/nginx-proxy-manager:latest
+    state: started
+    restart_policy: always
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - /home/docker/npm/data:/data
+      - /home/docker/npm/letsencrypt:/etc/letsencrypt
+    networks:
+      - reverse_proxy

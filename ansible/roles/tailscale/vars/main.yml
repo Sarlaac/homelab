@@ -1,0 +1,4 @@
+---
+# vars file for tailscale
+tailscale_machine_authkey: "asdf1234"
+tailscale_routes: "10.88.88.0/24"
