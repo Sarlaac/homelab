@@ -3,6 +3,7 @@
     name: minecraft
     image: itzg/minecraft-server
     state: started
+    pull: true
     restart_policy: always
     ports:
       - "25565:25565"

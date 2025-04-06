@@ -3,6 +3,7 @@
     name: homepage
     image: ghcr.io/gethomepage/homepage:latest
     state: started
+    pull: true
     restart_policy: always
     ports:
       - "3000:3000"
@@ -11,4 +12,4 @@
       - /home/docker/homepage/images:/app/public/images
       - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
     networks:
-      - reverse_proxy
+      - name: reverse_proxy
