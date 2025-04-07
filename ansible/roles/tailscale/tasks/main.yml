@@ -1,0 +1,18 @@
+- name: Install tailscale in Docker
+  community.docker.docker_container:
+    name: lab_tail
+    image: tailscale/tailscale:latest
+    state: started
+    pull: true
+    restart_policy: always
+    environment:
+      - TS_AUTHKEY=${tailscale_machine_authkey}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_ROUTES=${tailscale_routes}
+    volumes:
+      - /home/docker/tailscale-proxy/state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
