@@ -4,14 +4,15 @@ desktops:
     localhost:
       ansible_connection: local
 
-servers:
+raspberries:
   hosts:
-    test_gitlab:
-      ansible_host: testgitlab.nutrien.com
-      ansible_user: russph
+    10.88.88.[14:19]
 
-tests:
+proxmox:
   hosts:
-    debianVM:
-      ansible_host: 192.168.56.102
-      ansible_user: sarlaac
+    10.88.88.[20:59]
+
+servers:
+  children:
+    raspberries:
+    proxmox:
